@@ -43,12 +43,13 @@ var table;
              }, 5000);*/
         }
         TableCollection.prototype.parse = function (res) {
+            var icons = this.icons;
             var d = res.stamp;
             this.params.date = d.replace(' ', 'T');
             var stamp = Date.now();
             _.map(res.result.list, function (item) {
                 item.stamp = stamp;
-                item.icon = 'fa fa-' + item.icon;
+                item.icon = 'fa ' + (icons[item.icon] || icons['defailt']);
                 item.time = item.t;
                 item.name = item.id;
             });

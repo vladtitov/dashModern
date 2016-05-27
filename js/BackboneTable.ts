@@ -25,6 +25,7 @@ module table{
         model:any = RowModel;
         data:any;
         params:any;
+        icons:any;
         constructor(options:any) {
             super(options)
             for(var str in options)this[str] = options[str];
@@ -35,12 +36,13 @@ module table{
         }
 
         parse(res) {
+            var icons= this.icons;
             var d:string = res.stamp;
             this.params.date = d.replace(' ', 'T');
             var stamp = Date.now();
             _.map(res.result.list, function (item:any) {
                 item.stamp = stamp;
-                item.icon = 'fa fa-' + item.icon;
+                item.icon = 'fa ' + (icons[item.icon] || icons['defailt']) ;
                 item.time = item.t;
                 item.name = item.id;
             });
