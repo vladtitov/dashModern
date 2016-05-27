@@ -5,6 +5,9 @@
     
 module table{
     export class RowModel extends Backbone.Model {
+        constructor(item:VOItem){
+            super(item);
+        }
 
         defaults():VOItem {
             return {
@@ -83,6 +86,7 @@ module table{
 
             this.collection.bind("add", (evt)=> {
                 //  console.log('add',evt);
+                console.log(evt)
                 var row = new RowView({model: evt, tagName: 'tr'});
                 this.$el.append(row.render().el);
             }, this);

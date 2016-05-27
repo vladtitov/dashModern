@@ -11,8 +11,8 @@ var table;
 (function (table) {
     var RowModel = (function (_super) {
         __extends(RowModel, _super);
-        function RowModel() {
-            _super.apply(this, arguments);
+        function RowModel(item) {
+            _super.call(this, item);
         }
         RowModel.prototype.defaults = function () {
             return {
@@ -84,6 +84,7 @@ var table;
             }, this);
             this.collection.bind("add", function (evt) {
                 //  console.log('add',evt);
+                console.log(evt);
                 var row = new RowView({ model: evt, tagName: 'tr' });
                 _this.$el.append(row.render().el);
             }, this);
