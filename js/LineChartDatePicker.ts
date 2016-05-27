@@ -80,7 +80,7 @@ module graphs{
     export class LineChart2 {
 
         private chart:Chartist.IChartistLineChart;
-        private from:string = '2016-03-15T8:30:00';
+        private from:string = '2016-03-15T8:00:00';
         private to:number;
 
         url:string='http://front-desk.ca/mi/callcenter/rem/getstatusgraph'; //?from=<%=from%>&to=<%=to%>

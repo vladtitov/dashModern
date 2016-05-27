@@ -61,7 +61,7 @@ var graphs;
     var LineChart2 = (function () {
         function LineChart2(selector, options) {
             this.selector = selector;
-            this.from = '2016-03-15T8:30:00';
+            this.from = '2016-03-15T8:00:00';
             this.url = 'http://front-desk.ca/mi/callcenter/rem/getstatusgraph'; //?from=<%=from%>&to=<%=to%>
             this.options = {
                 showArea: true,

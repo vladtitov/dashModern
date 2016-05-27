@@ -1,6 +1,2 @@
 # Created by .ignore support plugin (hsz.mobi)
-.idea/dashModern.iml
-.idea/modules.xml
-.idea/typescript-compiler.xml
-.idea/workspace.xml
-
+.idea/
