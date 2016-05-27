@@ -6,8 +6,8 @@ var Formatter = {
         if (isNaN(num))
             return '';
         var h = Math.floor(num / 60 / 60);
-        var min = Math.floor(num / 60);
-        var sec = num - (min * 60);
+        var min = Math.floor(num / 60) - (h * 60);
+        var sec = num - (min * 60) - (h * 60 * 60);
         return h + ':' + (min < 10 ? '0' + min : min) + ':' + (sec < 10 ? '0' + sec : sec);
     },
     time: function ($view, val) {

@@ -33,8 +33,6 @@ var table;
         RowModel.prototype.initialize = function () {
             var _this = this;
             setInterval(function () {
-                //var t:number = this.get('t')+1;
-                //this.set('t',t);
                 var t = _this.attributes.t++;
                 _this.set('time', Formatter.formatTime(t));
             }, 1000);
@@ -59,6 +57,7 @@ var table;
             var icons = this.icons;
             var d = res.stamp;
             //console.log(res);
+            var out = [];
             this.params.date = d.replace(' ', 'T');
             var stamp = Date.now();
             _.map(res.result.list, function (item) {
@@ -66,10 +65,13 @@ var table;
                 item.icon = 'fa ' + (icons[item.icon] || icons['defailt']);
                 item.time = item.t;
                 item.name = item.id;
+                out.push(item);
             });
+            var out2 = _.sortBy(out, 'sort');
             // console.log(res.result.list.length);
             //  console.log(res);
-            return res.result.list;
+            //return res.result.list
+            return out2;
         };
         return TableCollection;
     }(Backbone.Collection));
