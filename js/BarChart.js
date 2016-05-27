@@ -31,7 +31,7 @@ var graphs;
         BarChart.prototype.loadData = function () {
             var _this = this;
             $.get(this.url + this.opts.id).done(function (res) {
-                console.log(res);
+                //console.log(res);
                 _this.drawChart(res);
             });
         };

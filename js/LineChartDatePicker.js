@@ -60,8 +60,9 @@ var graphs;
     graphs.DatesPicker = DatesPicker;
     var LineChart2 = (function () {
         function LineChart2(selector, options) {
-            var _this = this;
             this.selector = selector;
+            this.from = '2016-03-15T8:30:00';
+            this.url = 'http://front-desk.ca/mi/callcenter/rem/getstatusgraph'; //?from=<%=from%>&to=<%=to%>
             this.options = {
                 showArea: true,
                 showLine: true,
@@ -77,19 +78,26 @@ var graphs;
                     showLabel: true
                 }
             };
-            this.url = 'http://front-desk.ca/mi/callcenter/rem/getstatusgraph?from=<%=from%>&to=<%=to%>';
-            Registry.event.on(Registry.LOAD_DATA, function (evt, date) {
-                date = date.replace(' ', 'T');
+            this.to = moment(this.from, 'YYYY-MM-DDTh:mm:ss').unix();
+            this.to += 60 * 5;
+            this.loadData();
+            this.startTimer();
+            /*Registry.event.on(Registry.LOAD_DATA,(evt,date:string)=>{
+                console.log(date);
+                date = date.replace(' ','T');
                 var ar = date.split('T');
-                ar[1] = Registry.data[Registry.WORK_START_TIME];
-                var start = ar.join('T');
-                _this.loadData(start, date);
-            });
+                ar[1]=Registry.data[Registry.WORK_START_TIME];
+                var start:string = ar.join('T');
+                this.loadData(start,date)
+
+            })
             // var p:DatesPicker = new DatesPicker(options || {});
-            emmiter.on(ON_DATE_CAHGED, function (evt, val1, val2) {
-                console.log(val1, val2);
+
+
+            emmiter.on(ON_DATE_CAHGED,(evt,val1,val2)=>{
+                console.log(val1,val2);
                 //  this.loadData(val1,val2);
-            });
+            })*/
             //  this.loadData(0,Number(moment().format('X')));
         }
         LineChart2.prototype.addVerticalLines = function () {
@@ -99,13 +107,21 @@ var graphs;
                 })
             ];
         };
-        LineChart2.prototype.loadData = function (from, to) {
+        LineChart2.prototype.startTimer = function () {
             var _this = this;
-            var loading = moment(from).calendar() + ' to: ' + moment(to).calendar();
-            var url = _.template(this.url)({ from: from, to: to });
-            // console.log(url);
-            $('#DateRange').text(loading);
-            $.get(url).done(function (res) {
+            this.myTimer = setInterval(function () { return _this.loadData(); }, 2000);
+        };
+        LineChart2.prototype.stopTimer = function () {
+            clearInterval(this.myTimer);
+        };
+        LineChart2.prototype.loadData = function () {
+            var _this = this;
+            //var loading:string = moment(from).calendar()+' to: '+ moment(to).calendar();
+            this.to = this.to + 60;
+            var to = moment.unix(this.to).format('YYYY-MM-DDTh:mm:ss');
+            console.log(to);
+            //$('#DateRange').text(loading);
+            $.get(this.url, { from: this.from, to: to }).done(function (res) {
                 // console.log(res);
                 _this.addVerticalLines();
                 var labels = [];

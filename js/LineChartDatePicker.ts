@@ -80,7 +80,37 @@ module graphs{
     export class LineChart2 {
 
         private chart:Chartist.IChartistLineChart;
+        private from:string = '2016-03-15T8:30:00';
+        private to:number;
 
+        url:string='http://front-desk.ca/mi/callcenter/rem/getstatusgraph'; //?from=<%=from%>&to=<%=to%>
+
+        constructor(private selector:string,options:any){
+            this.to = moment(this.from, 'YYYY-MM-DDTh:mm:ss').unix();
+            this.to += 60 * 5;
+
+            this.loadData();
+            this.startTimer();
+            /*Registry.event.on(Registry.LOAD_DATA,(evt,date:string)=>{
+                console.log(date);
+                date = date.replace(' ','T');
+                var ar = date.split('T');
+                ar[1]=Registry.data[Registry.WORK_START_TIME];
+                var start:string = ar.join('T');
+                this.loadData(start,date)
+
+            })
+            // var p:DatesPicker = new DatesPicker(options || {});
+
+
+            emmiter.on(ON_DATE_CAHGED,(evt,val1,val2)=>{
+                console.log(val1,val2);
+                //  this.loadData(val1,val2);
+            })*/
+
+            //  this.loadData(0,Number(moment().format('X')));
+
+        }
         addVerticalLines():void{
            this.options.plugins= [
                 Chartist.plugins.verticalLine({
@@ -89,13 +119,23 @@ module graphs{
                ]
         }
 
-        loadData(from:string,to:string):void {
-           var loading:string = moment(from).calendar()+' to: '+ moment(to).calendar();
+        private myTimer:number;
 
-            var url = _.template(this.url)({from:from,to:to});
-           // console.log(url);
-            $('#DateRange').text(loading);
-            $.get(url).done((res)=> {
+        startTimer ():void {
+            this.myTimer = setInterval(  () => this.loadData (), 2000);
+        }
+
+        stopTimer ():void {
+            clearInterval(this.myTimer);
+        }
+
+        loadData():void {
+            //var loading:string = moment(from).calendar()+' to: '+ moment(to).calendar();
+            this.to = this.to + 60;
+            var to = moment.unix(this.to).format('YYYY-MM-DDTh:mm:ss');
+            console.log(to);
+            //$('#DateRange').text(loading);
+            $.get(this.url,{from:this.from,to:to}).done((res)=> {
                // console.log(res);
                 this.addVerticalLines();
                 var labels=[];
@@ -154,32 +194,7 @@ $('#RangeTotal').text(count);
         }
 
 
-        url:string='http://front-desk.ca/mi/callcenter/rem/getstatusgraph?from=<%=from%>&to=<%=to%>';
 
-        constructor(private selector:string,options:any){
-
-            Registry.event.on(Registry.LOAD_DATA,(evt,date:string)=>{
-                date = date.replace(' ','T');
-                var ar = date.split('T');
-                ar[1]=Registry.data[Registry.WORK_START_TIME];
-               var start:string = ar.join('T');
-                this.loadData(start,date)
-
-            })
-               // var p:DatesPicker = new DatesPicker(options || {});
-
-
-            emmiter.on(ON_DATE_CAHGED,(evt,val1,val2)=>{
-                console.log(val1,val2);
-              //  this.loadData(val1,val2);
-            })
-
-
-
-
-          //  this.loadData(0,Number(moment().format('X')));
-
-        }
 
 
     }

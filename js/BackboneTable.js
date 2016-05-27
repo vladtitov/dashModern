@@ -27,24 +27,33 @@ var table;
                 b_r: 0
             };
         };
+        RowModel.prototype.initialize = function () {
+            var _this = this;
+            setInterval(function () {
+                var t = _this.get('time') + 1;
+                _this.set('time', t);
+            }, 1000);
+        };
         return RowModel;
     }(Backbone.Model));
     table.RowModel = RowModel;
     var TableCollection = (function (_super) {
         __extends(TableCollection, _super);
         function TableCollection(options) {
+            var _this = this;
             _super.call(this, options);
             this.model = RowModel;
             for (var str in options)
                 this[str] = options[str];
             this.fetch({ data: this.params });
-            /* setInterval(()=> {
-                 this.fetch({data: this.params});
-             }, 5000);*/
+            setInterval(function () {
+                _this.fetch({ data: _this.params });
+            }, 5000);
         }
         TableCollection.prototype.parse = function (res) {
             var icons = this.icons;
             var d = res.stamp;
+            //console.log(res);
             this.params.date = d.replace(' ', 'T');
             var stamp = Date.now();
             _.map(res.result.list, function (item) {
@@ -71,7 +80,7 @@ var table;
             // collection.bind('reset', this.render);
             this.collection = new TableCollection(options);
             this.collection.bind('remove', function (evt) {
-                console.log('remove', evt);
+                //console.log('remove', evt);
             }, this);
             this.collection.bind("add", function (evt) {
                 //  console.log('add',evt);
@@ -79,12 +88,12 @@ var table;
                 _this.$el.append(row.render().el);
             }, this);
             this.render = function () {
-                console.log(this);
+                //console.log(this);
                 return this;
             };
         }
         TableView.prototype.render = function () {
-            console.log('render');
+            //console.log('render');
             return this;
         };
         return TableView;
@@ -113,10 +122,10 @@ var table;
             return this;
         };
         RowView.prototype.add = function () {
-            console.log('add');
+            //console.log('add');
         };
         RowView.prototype.destroy = function () {
-            console.log('destroy');
+            //console.log('destroy');
         };
         return RowView;
     }(Backbone.View));

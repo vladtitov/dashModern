@@ -24,7 +24,7 @@ module graphs{
         url:string='http://front-desk.ca/mi/callcenter/rem/getBarChart.php?id=';
         loadData():void{
             $.get(this.url+this.opts.id).done((res)=>{
-                console.log(res);
+                //console.log(res);
                 this.drawChart(res);
 
 

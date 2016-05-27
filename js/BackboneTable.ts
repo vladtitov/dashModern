@@ -19,6 +19,13 @@ module table{
                 b_r:0
             }
         }
+
+        initialize(){
+            setInterval(()=>{
+                var t:number = this.get('time')+1;
+                this.set('time',t);
+            },1000)
+        }
     }
 
     export class TableCollection extends Backbone.Collection<RowModel> {
@@ -26,18 +33,20 @@ module table{
         data:any;
         params:any;
         icons:any;
+        url: string;
         constructor(options:any) {
             super(options)
             for(var str in options)this[str] = options[str];
             this.fetch({data: this.params});
-           /* setInterval(()=> {
+            setInterval(()=> {
                 this.fetch({data: this.params});
-            }, 5000);*/
+            }, 5000);
         }
 
         parse(res) {
             var icons= this.icons;
             var d:string = res.stamp;
+            //console.log(res);
             this.params.date = d.replace(' ', 'T');
             var stamp = Date.now();
             _.map(res.result.list, function (item:any) {
@@ -69,7 +78,7 @@ module table{
             // collection.bind('reset', this.render);
             this.collection = new TableCollection(options);
             this.collection.bind('remove', (evt)=> {
-                console.log('remove', evt);
+                //console.log('remove', evt);
             }, this);
 
             this.collection.bind("add", (evt)=> {
@@ -78,14 +87,14 @@ module table{
                 this.$el.append(row.render().el);
             }, this);
             this.render = function () {
-                console.log(this);
+                //console.log(this);
                 return this;
             }
         }
 
         render():TableView {
 
-            console.log('render');
+            //console.log('render');
 
             return this;
         }
@@ -122,11 +131,11 @@ module table{
         }
 
         add():void {
-            console.log('add');
+            //console.log('add');
         }
 
         destroy():void {
-            console.log('destroy');
+            //console.log('destroy');
         }
 
 

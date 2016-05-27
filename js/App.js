@@ -5,6 +5,9 @@
 ///<reference path="../typings/underscore.d.ts"/>
 ///<reference path="../typings/require.d.ts"/>
 ///<reference path="../typings/backbone-global.d.ts"/>
+///<reference path="BackboneTable.ts"/>
+///<reference path="BarChart.ts"/>
+///<reference path="FieldsUpdate2.ts"/>
 var Registry = (function () {
     function Registry() {
     }
@@ -23,7 +26,7 @@ $(document).ready(function () {
     R.data[R.CURRENT_DATE] = '2016-03-15T8:30:00';
     R.data[R.WORK_START_TIME] = '08:00:00';
     setInterval(function () { Registry.event.triggerHandler(Registry.LOAD_DATA, Registry.data[R.CURRENT_DATE]); }, 5000);
-    setTimeout(function () { Registry.event.triggerHandler(Registry.LOAD_DATA, Registry.data[R.CURRENT_DATE]); }, 666);
+    //setTimeout(()=>{Registry.event.triggerHandler(Registry.LOAD_DATA,Registry.data[R.CURRENT_DATE])},666);
     Registry.event.on(Registry.LIST_NEW_DATE, function (evt, date) {
         Registry.data[Registry.CURRENT_DATE] = date;
         Registry.event.triggerHandler(Registry.SET_CURRENT_DATE, date);
