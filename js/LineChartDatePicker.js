@@ -61,7 +61,7 @@ var graphs;
     var LineChart2 = (function () {
         function LineChart2(selector, options) {
             this.selector = selector;
-            this.from = '2016-03-15T8:30:00';
+            this.from = '2016-03-15T8:00:00';
             this.url = 'http://front-desk.ca/mi/callcenter/rem/getstatusgraph'; //?from=<%=from%>&to=<%=to%>
             this.options = {
                 showArea: true,
@@ -79,7 +79,7 @@ var graphs;
                 }
             };
             this.to = moment(this.from, 'YYYY-MM-DDTh:mm:ss').unix();
-            this.to += 60 * 5;
+            this.to += 60 * 30;
             this.loadData();
             this.startTimer();
             /*Registry.event.on(Registry.LOAD_DATA,(evt,date:string)=>{
@@ -119,7 +119,6 @@ var graphs;
             //var loading:string = moment(from).calendar()+' to: '+ moment(to).calendar();
             this.to = this.to + 60;
             var to = moment.unix(this.to).format('YYYY-MM-DDTh:mm:ss');
-            console.log(to);
             //$('#DateRange').text(loading);
             $.get(this.url, { from: this.from, to: to }).done(function (res) {
                 // console.log(res);

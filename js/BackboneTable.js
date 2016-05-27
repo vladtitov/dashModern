@@ -11,12 +11,9 @@ var table;
 (function (table) {
     var RowModel = (function (_super) {
         __extends(RowModel, _super);
-        function RowModel() {
-            _super.apply(this, arguments);
+        function RowModel(item) {
+            _super.call(this, item);
         }
-        /*constructor () {
-            super ()
-        }*/
         RowModel.prototype.defaults = function () {
             return {
                 stamp: 0,
@@ -36,6 +33,8 @@ var table;
                 var t = _this.attributes.t++;
                 _this.set('time', Formatter.formatTime(t));
             }, 1000);
+        };
+        RowModel.prototype.myInit = function () {
         };
         return RowModel;
     }(Backbone.Model));
@@ -63,10 +62,11 @@ var table;
             _.map(res.result.list, function (item) {
                 item.stamp = stamp;
                 item.icon = 'fa ' + (icons[item.icon] || icons['defailt']);
-                item.time = item.t;
+                item.time = Formatter.formatTime(item.t);
                 item.name = item.id;
                 out.push(item);
             });
+            this.trigger('NUM_OF_AGENTS', out.length);
             var out2 = _.sortBy(out, 'sort');
             // console.log(res.result.list.length);
             //  console.log(res);
@@ -86,12 +86,14 @@ var table;
             RowView.template = _.template($(options.rowTemplate).html());
             // collection.bind('reset', this.render);
             this.collection = new TableCollection(options);
+            this.collection.on('NUM_OF_AGENTS', function (evt) { return (_this.setAmount(evt)); });
             this.collection.bind('remove', function (evt) {
                 //console.log('remove', evt);
             }, this);
-            this.collection.bind("add", function (evt) {
-                //  console.log('add',evt);
-                var row = new RowView({ model: evt, tagName: 'tr' });
+            this.collection.bind("add", function (item) {
+                //console.log('add',item);
+                item.myInit();
+                var row = new RowView({ model: item, tagName: 'tr' });
                 _this.$el.append(row.render().el);
             }, this);
             this.render = function () {
@@ -99,6 +101,8 @@ var table;
                 return this;
             };
         }
+        TableView.prototype.setAmount = function (num) {
+        };
         TableView.prototype.render = function () {
             //console.log('render');
             return this;

@@ -80,14 +80,14 @@ module graphs{
     export class LineChart2 {
 
         private chart:Chartist.IChartistLineChart;
-        private from:string = '2016-03-15T8:30:00';
+        private from:string = '2016-03-15T8:00:00';
         private to:number;
 
         url:string='http://front-desk.ca/mi/callcenter/rem/getstatusgraph'; //?from=<%=from%>&to=<%=to%>
 
         constructor(private selector:string,options:any){
             this.to = moment(this.from, 'YYYY-MM-DDTh:mm:ss').unix();
-            this.to += 60 * 5;
+            this.to += 60 * 30;
 
             this.loadData();
             this.startTimer();
@@ -133,7 +133,6 @@ module graphs{
             //var loading:string = moment(from).calendar()+' to: '+ moment(to).calendar();
             this.to = this.to + 60;
             var to = moment.unix(this.to).format('YYYY-MM-DDTh:mm:ss');
-            console.log(to);
             //$('#DateRange').text(loading);
             $.get(this.url,{from:this.from,to:to}).done((res)=> {
                // console.log(res);
