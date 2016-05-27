@@ -14,6 +14,9 @@ var table;
         function RowModel() {
             _super.apply(this, arguments);
         }
+        /*constructor () {
+            super ()
+        }*/
         RowModel.prototype.defaults = function () {
             return {
                 stamp: 0,
@@ -30,8 +33,10 @@ var table;
         RowModel.prototype.initialize = function () {
             var _this = this;
             setInterval(function () {
-                var t = _this.get('time') + 1;
-                _this.set('time', t);
+                //var t:number = this.get('t')+1;
+                //this.set('t',t);
+                var t = _this.attributes.t++;
+                _this.set('time', Formatter.formatTime(t));
             }, 1000);
         };
         return RowModel;

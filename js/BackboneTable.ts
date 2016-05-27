@@ -6,6 +6,10 @@
 module table{
     export class RowModel extends Backbone.Model {
 
+        /*constructor () {
+            super ()
+        }*/
+
         defaults():VOItem {
             return {
                 stamp: 0,
@@ -22,8 +26,10 @@ module table{
 
         initialize(){
             setInterval(()=>{
-                var t:number = this.get('time')+1;
-                this.set('time',t);
+                //var t:number = this.get('t')+1;
+                //this.set('t',t);
+                var t = this.attributes.t++;
+                this.set('time',Formatter.formatTime(t))
             },1000)
         }
     }
