@@ -6,10 +6,11 @@
 ///<reference path="../typings/moment.d.ts"/>
     ///<reference path="../typings/underscore.d.ts"/>
 ///<reference path="../typings/bootstrap.v3.datetimepicker.d.ts"/>
+    ///<reference path="App.ts"/>
+
 
 
 module graphs{
-
     import DP = BootstrapV3DatetimePicker;
    // import interpolateNumber = d3.interpolateNumber;
    // import stream = d3.geo.stream;
@@ -165,7 +166,7 @@ $('#RangeTotal').text(count);
                 this.loadData(start,date)
 
             })
-                var p:DatesPicker = new DatesPicker(options || {});
+               // var p:DatesPicker = new DatesPicker(options || {});
 
 
             emmiter.on(ON_DATE_CAHGED,(evt,val1,val2)=>{

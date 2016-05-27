@@ -6,7 +6,7 @@
 ///<reference path="../typings/moment.d.ts"/>
 ///<reference path="../typings/underscore.d.ts"/>
 ///<reference path="../typings/bootstrap.v3.datetimepicker.d.ts"/>
-///<reference path="../com/Registry.ts"/>
+///<reference path="App.ts"/>
 var graphs;
 (function (graphs) {
     // import interpolateNumber = d3.interpolateNumber;
@@ -56,10 +56,10 @@ var graphs;
             });
         }
         return DatesPicker;
-    })();
+    }());
     graphs.DatesPicker = DatesPicker;
-    var LineChart = (function () {
-        function LineChart(selector, options) {
+    var LineChart2 = (function () {
+        function LineChart2(selector, options) {
             var _this = this;
             this.selector = selector;
             this.options = {
@@ -85,21 +85,21 @@ var graphs;
                 var start = ar.join('T');
                 _this.loadData(start, date);
             });
-            var p = new DatesPicker(options || {});
+            // var p:DatesPicker = new DatesPicker(options || {});
             emmiter.on(ON_DATE_CAHGED, function (evt, val1, val2) {
                 console.log(val1, val2);
                 //  this.loadData(val1,val2);
             });
             //  this.loadData(0,Number(moment().format('X')));
         }
-        LineChart.prototype.addVerticalLines = function () {
+        LineChart2.prototype.addVerticalLines = function () {
             this.options.plugins = [
                 Chartist.plugins.verticalLine({
                     position: 'v'
                 })
             ];
         };
-        LineChart.prototype.loadData = function (from, to) {
+        LineChart2.prototype.loadData = function (from, to) {
             var _this = this;
             var loading = moment(from).calendar() + ' to: ' + moment(to).calendar();
             var url = _.template(this.url)({ from: from, to: to });
@@ -141,10 +141,11 @@ var graphs;
                 $('#RangeTotal').text(count);
             });
         };
-        LineChart.prototype.drawChart = function (data) {
+        LineChart2.prototype.drawChart = function (data) {
             this.chart = new Chartist.Line(this.selector, data, this.options);
         };
-        return LineChart;
-    })();
-    graphs.LineChart = LineChart;
+        return LineChart2;
+    }());
+    graphs.LineChart2 = LineChart2;
 })(graphs || (graphs = {}));
+//# sourceMappingURL=LineChartDatePicker.js.map
