@@ -87,7 +87,7 @@ module graphs{
 
         constructor(private selector:string,options:any){
             this.to = moment(this.from, 'YYYY-MM-DDTh:mm:ss').unix();
-            this.to += 60 * 5;
+            this.to += 60 * 30;
 
             this.loadData();
             this.startTimer();
@@ -133,7 +133,6 @@ module graphs{
             //var loading:string = moment(from).calendar()+' to: '+ moment(to).calendar();
             this.to = this.to + 60;
             var to = moment.unix(this.to).format('YYYY-MM-DDTh:mm:ss');
-            console.log(to);
             //$('#DateRange').text(loading);
             $.get(this.url,{from:this.from,to:to}).done((res)=> {
                // console.log(res);

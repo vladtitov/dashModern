@@ -30,9 +30,11 @@ var table;
         RowModel.prototype.initialize = function () {
             var _this = this;
             setInterval(function () {
-                var t = _this.get('time') + 1;
-                _this.set('time', t);
+                var t = _this.attributes.t++;
+                _this.set('time', Formatter.formatTime(t));
             }, 1000);
+        };
+        RowModel.prototype.myInit = function () {
         };
         return RowModel;
     }(Backbone.Model));
@@ -54,17 +56,22 @@ var table;
             var icons = this.icons;
             var d = res.stamp;
             //console.log(res);
+            var out = [];
             this.params.date = d.replace(' ', 'T');
             var stamp = Date.now();
             _.map(res.result.list, function (item) {
                 item.stamp = stamp;
                 item.icon = 'fa ' + (icons[item.icon] || icons['defailt']);
-                item.time = item.t;
+                item.time = Formatter.formatTime(item.t);
                 item.name = item.id;
+                out.push(item);
             });
+            this.trigger('NUM_OF_AGENTS', out.length);
+            var out2 = _.sortBy(out, 'sort');
             // console.log(res.result.list.length);
             //  console.log(res);
-            return res.result.list;
+            //return res.result.list
+            return out2;
         };
         return TableCollection;
     }(Backbone.Collection));
@@ -79,13 +86,14 @@ var table;
             RowView.template = _.template($(options.rowTemplate).html());
             // collection.bind('reset', this.render);
             this.collection = new TableCollection(options);
+            this.collection.on('NUM_OF_AGENTS', function (evt) { return (_this.setAmount(evt)); });
             this.collection.bind('remove', function (evt) {
                 //console.log('remove', evt);
             }, this);
-            this.collection.bind("add", function (evt) {
-                //  console.log('add',evt);
-                console.log(evt);
-                var row = new RowView({ model: evt, tagName: 'tr' });
+            this.collection.bind("add", function (item) {
+                //console.log('add',item);
+                item.myInit();
+                var row = new RowView({ model: item, tagName: 'tr' });
                 _this.$el.append(row.render().el);
             }, this);
             this.render = function () {
@@ -93,6 +101,8 @@ var table;
                 return this;
             };
         }
+        TableView.prototype.setAmount = function (num) {
+        };
         TableView.prototype.render = function () {
             //console.log('render');
             return this;

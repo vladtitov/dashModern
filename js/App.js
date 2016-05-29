@@ -8,6 +8,7 @@
 ///<reference path="BackboneTable.ts"/>
 ///<reference path="BarChart.ts"/>
 ///<reference path="FieldsUpdate2.ts"/>
+///<reference path="Formatter.ts"/>
 var Registry = (function () {
     function Registry() {
     }

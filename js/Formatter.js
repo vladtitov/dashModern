@@ -5,10 +5,12 @@ var Formatter = {
     formatTime: function (num) {
         if (isNaN(num))
             return '';
-        var h = Math.floor(num / 60 / 60);
-        var min = Math.floor(num / 60);
-        var sec = num - (min * 60);
-        return h + ':' + (min < 10 ? '0' + min : min) + ':' + (sec < 10 ? '0' + sec : sec);
+        var d = 0;
+        var d = Math.floor(num / 24 / 60 / 60);
+        var h = Math.floor(num / 60 / 60 - d * 24);
+        var min = Math.floor(num / 60 - (d * 24 * 60) - (h * 60));
+        var sec = num - (min * 60) - (h * 60 * 60) - (d * 24 * 60 * 60);
+        return (d === 0 ? '' : d + 'd ') + h + ':' + (min < 10 ? '0' + min : min) + ':' + (sec < 10 ? '0' + sec : sec);
     },
     time: function ($view, val) {
         return $view.text(this.formatTime(val));
