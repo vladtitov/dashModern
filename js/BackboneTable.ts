@@ -5,9 +5,8 @@
     
 module table{
     export class RowModel extends Backbone.Model {
-
-        constructor (item:VOItem) {
-            super (item);
+        constructor(item:VOItem){
+            super(item);
         }
 
         defaults():VOItem {
@@ -26,13 +25,9 @@ module table{
 
         initialize(){
             setInterval(()=>{
-                var t = this.attributes.t++;
-                this.set('time',Formatter.formatTime(t))
+                var t:number = this.get('time')+1;
+                this.set('time',t);
             },1000)
-        }
-
-        myInit () {
-
         }
     }
 
@@ -96,10 +91,10 @@ module table{
                 //console.log('remove', evt);
             }, this);
 
-            this.collection.bind("add", (item:RowModel)=> {
-                //console.log('add',item);
-                item.myInit();
-                var row = new RowView({model: item, tagName: 'tr'});
+            this.collection.bind("add", (evt)=> {
+                //  console.log('add',evt);
+                console.log(evt)
+                var row = new RowView({model: evt, tagName: 'tr'});
                 this.$el.append(row.render().el);
             }, this);
             this.render = function () {
@@ -107,11 +102,7 @@ module table{
                 return this;
             }
         }
-        
-        setAmount (num:number):void {
-            
-        }
-        
+
         render():TableView {
 
             //console.log('render');
@@ -119,6 +110,9 @@ module table{
             return this;
         }
 
+        setAmount (num:number):void {
+
+        }
 
     }
 
